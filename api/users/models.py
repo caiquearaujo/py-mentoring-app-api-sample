@@ -24,7 +24,6 @@ class UserManager(auth_models.UserManager):
         extra_fields.setdefault("location", None)
         extra_fields.setdefault("employer", None)
         extra_fields.setdefault("title", None)
-        extra_fields.setdefault("expertise", None)
         extra_fields.setdefault("status", UserStatus.CREATED)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
@@ -47,7 +46,6 @@ class UserManager(auth_models.UserManager):
         extra_fields.setdefault("location", None)
         extra_fields.setdefault("employer", None)
         extra_fields.setdefault("title", None)
-        extra_fields.setdefault("expertise", None)
         extra_fields.setdefault("status", UserStatus.CREATED.value)
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -75,12 +73,11 @@ class UserManager(auth_models.UserManager):
 class User(auth_models.AbstractUser):
     username = None
 
-    first_name = models.CharField(_("first name"), max_length=150)
-    last_name = models.CharField(_("last name"), max_length=150)
-    location = models.CharField(_("location"), max_length=150, blank=True, null=True)
-    employer = models.CharField(_("employer"), max_length=150, blank=True, null=True)
-    title = models.CharField(_("title"), max_length=150, blank=True, null=True)
-    expertise = models.CharField(_("expertise"), max_length=150, blank=True, null=True)
+    first_name = models.CharField(_("first name"), blank=False, max_length=150)
+    last_name = models.CharField(_("last name"), blank=False, max_length=150)
+    location = models.CharField(_("location"), max_length=150, blank=False, null=True)
+    employer = models.CharField(_("employer"), max_length=150, blank=False, null=True)
+    title = models.CharField(_("title"), max_length=150, blank=False, null=True)
     email = models.EmailField(_("email address"), blank=False, unique=True)
     password = models.CharField(max_length=255)
     status = models.CharField(
