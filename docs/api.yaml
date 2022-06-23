@@ -1,0 +1,113 @@
+openapi: 3.1.0
+x-stoplight:
+  id: atwgs6p1ri80i
+info:
+  title: Mentoring API
+  version: '1.0'
+  description: This documentation covers all endpoints available to mentoring api.
+  license:
+    name: MIT
+    url: 'https://choosealicense.com/licenses/mit/'
+servers:
+  - url: 'http://localhost:3000'
+    description: Local Server
+paths:
+  /auth/sign-up:
+    post:
+      summary: Sign up
+      operationId: post-auth-sign-up
+      responses:
+        '200':
+          description: OK
+      description: Endpoint to sign up a new user.
+  /auth/sign-in:
+    post:
+      summary: Sign in
+      operationId: post-auth-sign-in
+      responses:
+        '200':
+          description: OK
+      description: Endpoint to users do their login.
+  /profile:
+    get:
+      summary: Display profile data
+      tags: []
+      responses: {}
+      operationId: get-profile
+      description: Endpoint to display profile data to connected user.
+    put:
+      summary: Update profile data
+      operationId: put-profile
+      responses:
+        '200':
+          description: OK
+      description: Endpoint to connected user be able to edit his data.
+  /mentors:
+    get:
+      summary: Get all available mentors
+      tags: []
+      responses: {}
+      operationId: get-mentors
+      description: 'Endpoint to get all available mentors, filtering by their status, expertise and mentorship area with pagination.'
+  /members:
+    get:
+      summary: Get all available members
+      tags: []
+      responses: {}
+      operationId: get-members
+      description: 'Endpoint to get all available member, filtering by their expertise with pagination.'
+  '/mentors/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get a mentor by his ID
+      tags: []
+      responses: {}
+      operationId: get-mentors-id
+      description: Endpoint to display mentor data by his ID.
+  '/members/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get a member by his ID
+      tags: []
+      responses: {}
+      operationId: get-members-id
+      description: Endpoint to display member data by his ID.
+  /booking:
+    parameters: []
+    post:
+      summary: Books an appointment
+      operationId: post-booking
+      responses:
+        '200':
+          description: OK
+      description: Endpoint to booking a new appointment with an available mentor.
+  '/booking/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Update booking status
+      operationId: put-booking-id
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Endpoint to change booking status by ID. It is available only to mentor and member related to current booking ID.
+
+        - **Mentor can**: mark as completed or cancel booking;
+        - **Member can**: only cancel booking.
+components:
+  schemas: {}
