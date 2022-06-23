@@ -32,3 +32,8 @@ class UserSignUpSerializer(serializers.Serializer):
     def to_internal_value(self, data):
         data = super().to_internal_value(data)
         return services.UserDataClass(**data)
+
+
+class UserSignInSerializer(serializers.Serializer):
+    email = serializers.CharField(max_length=150)
+    password = serializers.CharField(write_only=True, max_length=255)

@@ -1,5 +1,8 @@
 import dataclasses
+import datetime
 from typing import TYPE_CHECKING
+
+import core.jwt as jwt
 from .enums import UserStatus
 from .models import User
 
@@ -48,3 +51,12 @@ def create_user(user: "UserDataClass") -> "UserDataClass":
 
     instance.save()
     return UserDataClass.from_instance(instance)
+
+
+def find_by_email(email: str) -> "User":
+    user = User.objects.filter(email=email).first()
+    return user
+
+
+def create_token(id: int) -> str:
+    return jwt.encode(id)
