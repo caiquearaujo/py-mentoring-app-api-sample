@@ -10,9 +10,11 @@ properties:
   first_name:
     type: string
     description: First name.
+    maxLength: 150
   last_name:
     type: string
     description: Last name.
+    maxLength: 150
   email:
     type: string
     description: E-mail.
@@ -20,12 +22,15 @@ properties:
   location:
     type: string
     description: User location as "place name".
+    maxLength: 150
   employer:
     type: string
     description: User's employer.
+    maxLength: 150
   title:
     type: string
     description: Professional title.
+    maxLength: 150
   status:
     type: string
     description: User current status.
@@ -35,7 +40,7 @@ properties:
       - approved
     default: created
   available_time:
-    $ref: ./json/AvailableTimeSchema.yaml
+    $ref: ../json/AvailableTimeSchema.yaml
   is_staff:
     type: boolean
     description: Designates whether the user can log into this admin site.
@@ -61,5 +66,7 @@ properties:
     description: Last user login date-time.
 required:
   - id
+  - first_name
+  - last_name
   - email
   - password
