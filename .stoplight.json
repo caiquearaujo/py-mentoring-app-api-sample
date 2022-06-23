@@ -1,0 +1,24 @@
+{
+    "editor": {
+        "lineWidth": 80
+    },
+    "formats": {
+        "openapi": {
+            "rootDir": "docs",
+            "include": ["**"]
+        },
+        "markdown": {
+            "rootDir": "docs",
+            "include": ["**"]
+        },
+        "image": {
+            "rootDir": "docs/images",
+            "include": ["**"]
+        },
+        "json_schema": {
+            "rootDir": "docs/models",
+            "include": ["**"]
+        }
+    },
+    "exclude": ["test", "env", "api"]
+}

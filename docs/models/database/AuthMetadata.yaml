@@ -1,0 +1,23 @@
+title: Metadata to Auth User
+x-stoplight:
+  id: 2wgl3bwb91l0d
+type: object
+description: Definiton to metadata available to users.
+properties:
+  id:
+    type: integer
+    description: Primary key to mentorship area.
+  key:
+    type: string
+    description: Metadata key.
+    enum:
+      - expertise
+      - mentorship_area
+  value:
+    type: string
+    maxLength: 100
+    description: Value to metadata.
+required:
+  - id
+  - key
+  - value

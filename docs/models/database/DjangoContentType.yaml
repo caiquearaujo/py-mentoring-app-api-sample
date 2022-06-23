@@ -1,0 +1,20 @@
+title: Django Content-Type
+x-stoplight:
+  id: p9czmf492w7ov
+type: object
+properties:
+  id:
+    type: integer
+    description: Primary key to content-type.
+  app_label:
+    type: string
+    description: Application label to content-type.
+    maxLength: 100
+  model:
+    type: string
+    description: Python model class name.
+    maxLength: 100
+required:
+  - id
+  - app_label
+  - model

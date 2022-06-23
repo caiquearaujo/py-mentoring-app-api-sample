@@ -1,0 +1,19 @@
+title: Auth Group x Permission
+x-stoplight:
+  id: 425ds3553sr7n
+type: object
+description: Association of a permission to a group.
+properties:
+  id:
+    type: integer
+    description: Primary key for association.
+  group_id:
+    type: integer
+    description: Group ID.
+  permission_id:
+    type: integer
+    description: Permission ID.
+required:
+  - id
+  - group_id
+  - permission_id

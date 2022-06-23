@@ -1,0 +1,7 @@
+title: Day Schema
+x-stoplight:
+  id: 7mxivdqn3eu50
+type: array
+description: Day schema is an array of time schemas.
+items:
+  $ref: ./TimeSchema.yaml

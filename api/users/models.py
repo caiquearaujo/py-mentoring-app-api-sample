@@ -56,9 +56,20 @@ class UserManager(auth_models.BaseUserManager):
 class User(auth_models.AbstractUser):
     username = None
 
-    email = models.EmailField(
-        _("email address"), blank=False, unique=True
-    )
+    first_name = models.CharField(_("first name"), max_length=150, blank=True)
+    last_name = models.CharField(_("last name"), max_length=150, blank=True)
+    location = models.CharField(_("location"), max_length=150, black=True)
+    employer = models.CharField(_("employer"), max_length=150, blank=True)
+    title = models.CharField(_("title"), max_length=150, blank=True)
+    expertise = models.CharField(_("expertise"), max_length=150, blank=True)
+    type = models.CharField(_("type"), max_length=150, blank=True)
+    email = models.EmailField(_("email address"), blank=True)
+
+    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
+
+    email = models.EmailField(_("email address"), blank=False, unique=True)
 
     password = models.CharField(max_length=255)
 

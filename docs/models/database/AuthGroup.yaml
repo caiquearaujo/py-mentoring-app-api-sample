@@ -1,0 +1,16 @@
+title: Auth Group
+x-stoplight:
+  id: z9rk8vdi0hzuk
+type: object
+description: Definition for a group.
+properties:
+  id:
+    type: integer
+    description: Primary key for group.
+  name:
+    type: string
+    description: Group name.
+    maxLength: 150
+required:
+  - id
+  - name

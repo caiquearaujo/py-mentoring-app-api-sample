@@ -1,0 +1,19 @@
+title: Auth User x Permission
+x-stoplight:
+  id: psc8dculhj7t89
+type: object
+description: Association of a permission to an user.
+properties:
+  id:
+    type: integer
+    description: Primary key for association.
+  user_id:
+    type: integer
+    description: User ID.
+  permission_id:
+    type: integer
+    description: Permission ID.
+required:
+  - id
+  - user_id
+  - permission_id

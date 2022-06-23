@@ -1,0 +1,19 @@
+title: Auth User Metadata
+x-stoplight:
+  id: 6hn6o5ywtieg9
+type: object
+description: Association of a metadata to an user.
+properties:
+  id:
+    type: integer
+    description: Primary key for association.
+  metadata_id:
+    type: integer
+    description: Metadata ID.
+  user_id:
+    type: integer
+    description: User ID.
+required:
+  - id
+  - metadata_id
+  - user_id

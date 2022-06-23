@@ -1,0 +1,25 @@
+title: Auth Permission
+x-stoplight:
+  id: r1x02ai7m1bzf
+type: object
+description: Definition for a permission.
+properties:
+  id:
+    type: integer
+    description: Primary key for permission.
+  name:
+    type: string
+    description: Permission name.
+    maxLength: 255
+  content_type_id:
+    type: integer
+    description: Content-type ID.
+  codename:
+    type: string
+    description: Permission codename.
+    maxLength: 100
+required:
+  - id
+  - name
+  - content_type_id
+  - codename

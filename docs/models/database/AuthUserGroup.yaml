@@ -1,0 +1,19 @@
+title: Auth User x Group
+x-stoplight:
+  id: psc8dculhly95
+type: object
+description: Association of a group to an user.
+properties:
+  id:
+    type: integer
+    description: Primary key to association.
+  user_id:
+    description: User ID.
+    type: integer
+  group_id:
+    description: Group ID.
+    type: integer
+required:
+  - id
+  - user_id
+  - group_id

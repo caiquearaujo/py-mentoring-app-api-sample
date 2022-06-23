@@ -1,0 +1,11 @@
+type: array
+title: Time Schema
+x-stoplight:
+  id: p6h3pex9loori
+description: Time schema is an array where the first element means start time and the last means end time.
+minItems: 2
+maxItems: 2
+items:
+  type: string
+  pattern: '^[\d]{2}\:[\d]{2}$'
+  example: '14:00'

@@ -1,0 +1,65 @@
+title: Auth User
+x-stoplight:
+  id: hn7x330eprk2p
+type: object
+description: Definition for authenticated user.
+properties:
+  id:
+    type: integer
+    description: Primary key for user.
+  first_name:
+    type: string
+    description: First name.
+  last_name:
+    type: string
+    description: Last name.
+  email:
+    type: string
+    description: E-mail.
+    format: email
+  location:
+    type: string
+    description: User location as "place name".
+  employer:
+    type: string
+    description: User's employer.
+  title:
+    type: string
+    description: Professional title.
+  status:
+    type: string
+    description: User current status.
+    enum:
+      - created
+      - pending
+      - approved
+    default: created
+  available_time:
+    $ref: ./json/AvailableTimeSchema.yaml
+  is_staff:
+    type: boolean
+    description: Designates whether the user can log into this admin site.
+    default: false
+  is_active:
+    type: boolean
+    description: Designates whether this user should be treated as active.
+    default: true
+  is_superuser:
+    type: boolean
+    default: false
+    description: Indicates if user is a superuser.
+  password:
+    type: string
+    description: User password.
+  date_joined:
+    type: string
+    description: Date when user joined on system.
+    format: date-time
+  last_login:
+    type: string
+    format: date-time
+    description: Last user login date-time.
+required:
+  - id
+  - email
+  - password

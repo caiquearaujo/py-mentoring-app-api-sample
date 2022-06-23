@@ -1,0 +1,16 @@
+title: Available Time Schema
+x-stoplight:
+  id: eowvpstq8vtrn
+type: object
+description: A JSON object which can determine all available time to an user.
+properties:
+  monday:
+    $ref: ./DaySchema.yaml
+  tuesday:
+    $ref: ./DaySchema.yaml
+  wednesday:
+    $ref: ./DaySchema.yaml
+  thursday:
+    $ref: ./DaySchema.yaml
+  friday:
+    $ref: ./DaySchema.yaml
