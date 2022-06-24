@@ -18,6 +18,22 @@ class UserSerializer(serializers.Serializer):
     date_joined = serializers.DateTimeField(read_only=True)
     last_login = serializers.DateTimeField(read_only=True)
 
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        return services.UserDataClass(**data)
+
+
+class UserProfileUpdateSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=150)
+    last_name = serializers.CharField(max_length=150)
+    location = serializers.CharField(allow_null=True, default=None, max_length=150)
+    employer = serializers.CharField(allow_null=True, default=None, max_length=150)
+    title = serializers.CharField(allow_null=True, default=None, max_length=150)
+
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        return services.UserDataClass(**data)
+
 
 class UserSignUpSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)

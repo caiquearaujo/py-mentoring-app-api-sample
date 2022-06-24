@@ -53,6 +53,28 @@ def create_user(user: "UserDataClass") -> "UserDataClass":
     return UserDataClass.from_instance(instance)
 
 
+def update_account(user: "User", **update) -> "UserDataClass":
+    user.email = update.get("email", user.email)
+
+    if update.get("password"):
+        user.set_password(user.password)
+
+    user.save()
+    return UserDataClass.from_instance(user)
+
+
+def update_profile(user: "User", update: "UserDataClass") -> "UserDataClass":
+    user.first_name = update.first_name
+    user.last_name = update.last_name
+    user.email = update.email
+    user.location = update.location
+    user.employer = update.employer
+    user.title = update.title
+
+    user.save()
+    return UserDataClass.from_instance(user)
+
+
 def find_by_email(email: str) -> "User":
     user = User.objects.filter(email=email).first()
     return user
