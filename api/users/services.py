@@ -3,40 +3,14 @@ import datetime
 from typing import TYPE_CHECKING
 
 import core.jwt as jwt
-from .enums import UserStatus
 from .models import User
+from . import schemas
 
 if TYPE_CHECKING:
     from .models import User
 
 
-@dataclasses.dataclass
-class UserDataClass:
-    id: int = None
-    first_name: str = None
-    last_name: str = None
-    email: str = None
-    location: str = None
-    employer: str = None
-    title: str = None
-    status: str = UserStatus.CREATED.value
-    password: str = None
-
-    @classmethod
-    def from_instance(cls, user: "User") -> "UserDataClass":
-        return cls(
-            id=user.id,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            email=user.email,
-            location=user.location,
-            employer=user.employer,
-            title=user.title,
-            status=user.status,
-        )
-
-
-def create_user(user: "UserDataClass") -> "UserDataClass":
+def create_new_account(user: "schemas.UserData") -> "schemas.UserData":
     instance = User(
         first_name=user.first_name,
         last_name=user.last_name,
@@ -50,34 +24,27 @@ def create_user(user: "UserDataClass") -> "UserDataClass":
         instance.set_password(user.password)
 
     instance.save()
-    return UserDataClass.from_instance(instance)
+    return schemas.UserData.from_instance(instance)
 
 
-def update_account(user: "User", **update) -> "UserDataClass":
+def update_account(user: "User", **update) -> "schemas.UserData":
+    user.first_name = update.get("first_name", user.first_name)
+    user.last_name = update.get("last_name", user.last_name)
     user.email = update.get("email", user.email)
+    user.location = update.get("location", user.location)
+    user.employer = update.get("employer", user.employer)
+    user.title = update.get("title", user.title)
+    user.status = update.get("status", user.status)
 
     if update.get("password"):
         user.set_password(user.password)
 
     user.save()
-    return UserDataClass.from_instance(user)
-
-
-def update_profile(user: "User", update: "UserDataClass") -> "UserDataClass":
-    user.first_name = update.first_name
-    user.last_name = update.last_name
-    user.email = update.email
-    user.location = update.location
-    user.employer = update.employer
-    user.title = update.title
-
-    user.save()
-    return UserDataClass.from_instance(user)
+    return schemas.UserData.from_instance(user)
 
 
 def find_by_email(email: str) -> "User":
-    user = User.objects.filter(email=email).first()
-    return user
+    return User.objects.filter(email=email).first()
 
 
 def create_token(id: int) -> str:

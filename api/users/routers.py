@@ -1,17 +1,18 @@
+from datetime import datetime
 from rest_framework import views, response, exceptions, permissions
+from marshmallow import ValidationError, fields
 
 from . import auth
 from . import models
-from . import serializer as user_serializer
 from . import services
+from . import schemas
 
 
 class AuthStatusRouter(views.APIView):
     def get(self, request):
-        user = auth.read_token(request)
         status = "non-authenticated"
 
-        if user:
+        if request.user:
             status = "authenticated"
 
         return response.Response(data={"status": status})
@@ -22,18 +23,21 @@ class ProfileRouter(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        user = auth.read_token(request)
-        return response.Response(user_serializer.UserSerializer(user).data)
+        user: models.User = request.user
+        return response.Response(schemas.UserSchema().dump(user))
 
     def post(self, request):
-        user = auth.read_token(request)
+        user: models.User = request.user
 
-        serializer = user_serializer.UserProfileUpdateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        try:
+            schema = schemas.ProfileCreateSchema().load(request.data)
+        except ValidationError as err:
+            return response.Response(err.messages)
 
-        data = serializer.validated_data
-        serializer.instance = services.update_profile(user, update=data)
-        return response.Response(data=serializer.data)
+        data = schemas.UserData(**schema)
+        return response.Response(
+            data=schemas.UserSchema().dump(services.update_account(user, **data))
+        )
 
 
 class AccountRouter(views.APIView):
@@ -41,48 +45,59 @@ class AccountRouter(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
-        user: models.User = auth.read_token(request)
+        user: models.User = request.user
 
-        email = request.data["email"]
-        password = request.data["password"]
+        try:
+            schema = schemas.AccountUpdateSchema().load(request.data)
+        except ValidationError as err:
+            return response.Response(err.messages)
 
-        if email["old"] and user.email is email["old"] and email["new"]:
+        email = schema["email"]
+        password = schema["password"]
+
+        if email and user.email is email["old"] and email["new"]:
             email = email["new"]
 
-        if password["old"] and password["new"] and user.check_password(password["new"]):
+        if password and password["new"] and user.check_password(password["old"]):
             password = password["new"]
 
-        serializer = user_serializer.UserProfileUpdateSerializer(data=user)
-        serializer.instance = services.update_account(
-            user, email=email, password=password
+        return response.Response(
+            data=schemas.UserSchema().dump(
+                services.update_account(user, email=email, password=password)
+            )
         )
-
-        return response.Response(data=serializer.data)
 
 
 class SignUpRouter(views.APIView):
     def post(self, request):
-        serializer = user_serializer.UserSignUpSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        try:
+            schema = schemas.ProfileCreateSchema().load(request.data)
+        except ValidationError as err:
+            return response.Response(err.messages)
 
-        data = serializer.validated_data
-        serializer.instance = services.create_user(user=data)
-        return response.Response(data=serializer.data)
+        data = schemas.UserData(**schema)
+        return response.Response(
+            data=schemas.UserSchema().dump(services.create_new_account(data))
+        )
 
 
 class SignInRouter(views.APIView):
     def post(self, request):
-        serializer = user_serializer.UserSignInSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        try:
+            schema = schemas.LoginSchema().load(request.data)
+        except ValidationError as err:
+            return response.Response(err.messages)
 
-        data = serializer.validated_data
-        user = services.find_by_email(data["email"])
+        user = services.find_by_email(schema["email"])
 
         if user is None:
             raise exceptions.AuthenticationFailed("Invalid credentials, cannot continue")
 
-        if not user.check_password(raw_password=data["password"]):
+        if not user.check_password(schema["password"]):
             raise exceptions.AuthenticationFailed("Invalid credentials, cannot continue")
+
+        user.last_login = datetime.utcnow()
+        user.save()
 
         payload, token = services.create_token(id=user.id)
         return response.Response(

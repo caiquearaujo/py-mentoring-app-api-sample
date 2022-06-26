@@ -22,14 +22,14 @@ def read_token(request):
     if not token:
         return None
 
-    pattern = "Bearer (.*)"
-    matches = re.findall(pattern, token)
-    token = matches[0]
-
-    if not token:
-        return None
-
     try:
+        pattern = "Bearer (.*)"
+        matches = re.findall(pattern, token)
+        token = matches[0]
+
+        if not token:
+            return None
+
         payload = jwt.decode(token)
     except:
         return None
