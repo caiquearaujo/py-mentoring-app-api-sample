@@ -5,8 +5,7 @@ from typing import TYPE_CHECKING
 from xmlrpc.client import DateTime
 from marshmallow import Schema, fields, validate
 
-from .enums import UserStatus
-from .models import User
+from .models import User, UserStatus
 
 if TYPE_CHECKING:
     from .models import User

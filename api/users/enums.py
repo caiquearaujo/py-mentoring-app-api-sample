@@ -1,10 +1,11 @@
 from enum import Enum
 
 
-class UserStatus(Enum):
-    CREATED = "created"
-    PENDING = "pending"
-    APPROVED = "approved"
+class UserRole(Enum):
+    MEMBER = "member"
+    MENTOR = "mentor"
+    INTERNAL = "internal"
+    ANONYMOUS = "anonymous"
 
     @classmethod
     def choices(cls):
